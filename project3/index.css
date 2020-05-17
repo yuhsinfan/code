@@ -2,58 +2,56 @@ body {
     font: 10px sans-serif;
   }
 
-  .axis path,
-  .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
-
-  .x.axis path {
-    display: none;
-  }
-
- .btn{
-    outline: none;
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-    padding: 9px 22px;
-    border: 4px solid #bbbbbb;
-    border-radius: 0px;
-    background: #ffffff;
-    font: normal normal normal 21px arial;
-    color: #111111;
-    text-decoration: none;
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
 }
+
+.x.axis path {
+  display: none;
+}
+
+.btn{
+  outline: none;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  padding: 9px 22px;
+  border: 4px solid #bbbbbb;
+  border-radius: 0px;
+  background: #ffffff;
+  font: normal normal normal 21px arial;
+  color: #111111;
+  text-decoration: none;
+}
+
 .btn:hover{
     border: 4px solid #999999;
     color: #111111;
     text-decoration: none;
     background-color: gray; 
 }
+
 .active{
   border: 4px solid #999999;
     color: #111111;
     text-decoration: none;
     background-color: gray; 
 }
-/* .btn:active {
-  border: 4px solid black;
-} */
 
-
-.toolTip {
+/* .toolTip {
   position      : absolute;
-      text-align    : center;
-      max-width     : 70px;
-      max-height    : 30px;
-      padding       : 8px;
-      border        : none;
-      border-radius : 8px;
-      margin-top    : -30px;
-      font          : 10px sans-serif;
-      background    : black;
-      color         : white;
-      pointer-events: none;
-}
+  text-align    : center;
+  max-width     : 70px;
+  max-height    : 30px;
+  padding       : 8px;
+  border        : none;
+  border-radius : 8px;
+  margin-top    : -30px;
+  font          : 10px sans-serif;
+  background    : black;
+  color         : white;
+  pointer-events: none;
+} */

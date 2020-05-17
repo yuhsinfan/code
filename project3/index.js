@@ -46,6 +46,7 @@ var svg = d3.select('body').append("svg")
 // var tool = d3.select("body").append("div").attr("class", "toolTip");
 // tool.append("div").attr("class", "").style('display', 'none');
 
+//金錢每三位塞入逗點
 function formatNumber(number){
     var digits=number.split("");
     var threeDigits=[];
@@ -61,63 +62,50 @@ function formatNumber(number){
     return digits;
 }
 
+//更新data，繪製bar chart
 function update(data){ 
-svg.selectAll("rect").remove();
-svg.selectAll("text").remove();
-svg.selectAll(".y").remove();
-  var categoriesNames = data.map(function(d) {
-    return d.categorie;
-  });
+  svg.selectAll("rect").remove();
+  svg.selectAll("text").remove();
+  svg.selectAll(".y").remove();
   
   var rateNames = data[0].values.map(function(d) {
     return d.rate;
   });
 
   x.domain(rateNames);
-  //x1.domain(rateNames).rangeRoundBands([0, x0.rangeBand()]);
   y.domain([0, d3.max(data, function(categorie) {
     return d3.max(categorie.values, function(d) {
       return d.value;
     });
   })]);
 
+  //繪製x軸
   svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
     .call(xAxis)
     .append("text")
-    // .attr("transform", "rotate(-90)")
-    // .attr("y", 6)
-    // .attr("dy", ".71em")
-    // .style("text-anchor", "end")
     .attr("transform","translate("+(width-margin.right)+","+margin.right+")")
     .style('font-weight', 'bold')
     .text("年/月");
 
+  //繪製y軸
   svg.append("g")
     .attr("class", "y axis")
-    //.style('opacity', '0')
     .call(yAxis)
     .append("text")
-    //.attr("transform", "rotate(-90)")
-    // .attr("y", 6)
-    // .attr("dy", ".85em")
+    .attr("y", -10)
     .style("text-anchor", "end")
-    //.attr("transform","translate(0,"+(margin.top)+")")
     .style('font-weight', 'bold')
     .text("營收");
-
-  //svg.select('.y').transition().duration(500).delay(1300).style('opacity', '1');
 
   var slice = svg.selectAll(".slice")
     .data(data)
     .enter().append("g")
     .attr("class", "g");
-    // .attr("transform", function(d) {
-    //   return "translate(" + x(d.categorie) + ",0)";
-    // });
 
-    slice.selectAll("text")
+  //寫入每條bar的對應數字
+  slice.selectAll("text")
     .data(function(d) {
         return d.values;
     })
@@ -125,13 +113,10 @@ svg.selectAll(".y").remove();
     .append('text')
     .attr('class', 'bar-label')
     .attr('text-anchor', 'start')
-    //.attr('opacity', 0)
     .attr('fill', '#222')
     .attr('stroke', '#222')
     .attr('font-size',20)
     .text(function (d) { 
-        // console.log(d.value.toString());
-        // console.log(formatNumber(d.value.toString()));
         return formatNumber(d.value.toString()) + ' 元'; })
     .attr("x", function(d) {
         return x(d.rate)+20;
@@ -140,7 +125,8 @@ svg.selectAll(".y").remove();
         return y(0);
     })
     .attr("display","none");
-
+    
+  //繪製bar
   slice.selectAll("rect")
     .data(function(d) {
       return d.values;
@@ -158,21 +144,20 @@ svg.selectAll(".y").remove();
     })
     .attr("height", function(d) {
       return height - y(0);
-    })
-    .on("mouseover", function(d) {
-      d3.select(this).style("fill", d3.rgb(color(d.rate)).darker(1));
-    //   tool.style("left", d3.event.pageX + 34 + "px")
-    //   tool.style("top", d3.event.pageY - 12 + "px")
-    //   tool.style("display", "inline-block");
-    //   tool.html(  d.value + ' 元');
-    })
-    .on("mouseout", function(d) {
-      d3.select(this).style("fill", color(d.rate));
-    //   tool.style("display", "none");
     });
+    // .on("mouseover", function(d) {
+    // //   d3.select(this).style("fill", d3.rgb(color(d.rate)).darker(1));
+    // //   tool.style("left", d3.event.pageX + 34 + "px")
+    // //   tool.style("top", d3.event.pageY - 12 + "px")
+    // //   tool.style("display", "inline-block");
+    // //   tool.html(  d.value + ' 元');
+    // })
+    // .on("mouseout", function(d) {
+    //   d3.select(this).style("fill", color(d.rate));
+    // //   tool.style("display", "none");
+    // });
 
-
-
+  //製作動態bar
   slice.selectAll("rect")
     .transition()
     .delay(100)
@@ -183,15 +168,18 @@ svg.selectAll(".y").remove();
     .attr("height", function(d) {
       return height - y(d.value);
     });
-
-    slice.selectAll("text")
-        .transition()
-        .delay(100)
-        .duration(1000)
-        .attr("display","")
-        .attr("y", function(d) {
-            return y(d.value)-10;
-        });
+  
+  //製作動態text
+  slice.selectAll("text")
+      .transition()
+      .delay(100)
+      .duration(1000)
+      .attr("display","")
+      .attr("y", function(d) {
+          return y(d.value)-10;
+      });
 }
+
+//載入時直接匯入data1資料
 update(data1)
  
