@@ -35,7 +35,7 @@ var yAxis = d3.svg.axis()
   .orient("left");
 
 var color = d3.scale.ordinal()
-  .range(["#ca0020", "#f4a582", "#d5d5d5", "#92c5de", "#0571b0"]);
+  .range(["#DD84A1", "#FFBBBE", "#FEE698", "#CBE3B3", "#40DEF1"]);
 
 var svg = d3.select('body').append("svg")
   .attr("width", width + margin.left + margin.right)
